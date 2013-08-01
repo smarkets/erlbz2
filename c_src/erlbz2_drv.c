@@ -295,7 +295,7 @@ static int bz_compress(BZData* d)
         driver_deq(d->port, len);
     }
 
-    if ((res = BZ2_bzCompress(&d->s, BZ_FLUSH)) < 0) {
+    if ((res = BZ2_bzCompress(&d->s, BZ_FINISH)) < 0) {
         return res;
     }
     while (d->s.avail_out < d->binsz) {
