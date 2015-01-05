@@ -6,7 +6,7 @@ erlbz2 is a linked-in driver which supports the low-level libbzip2 compression l
 ## Requirements
 
 * Erlang R12B1 or greater
-* libbzip2 (tested with 1.0.5)
+* libbzip2 (tested with 1.0.5) or libbz2-dev (on Debian)
 
 ## Source
 
