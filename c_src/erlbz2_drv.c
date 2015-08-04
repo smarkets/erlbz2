@@ -41,7 +41,7 @@
 
 static ErlDrvData bz_start(ErlDrvPort port, char *buf);
 static void bz_stop(ErlDrvData e);
-static int bz_ctl(ErlDrvData drv_data, unsigned int command, char *buf, int len, char **rbuf, int rlen);
+static ErlDrvSSizeT bz_ctl(ErlDrvData drv_data, unsigned int command, char *buf, ErlDrvSizeT len, char **rbuf, ErlDrvSizeT rlen);
 static void bz_outputv(ErlDrvData drv_data, ErlIOVec *ev);
 
 ErlDrvEntry erlbz2_driver_entry = {
@@ -295,7 +295,7 @@ static int bz_compress(BZData* d)
         driver_deq(d->port, len);
     }
 
-    if ((res = BZ2_bzCompress(&d->s, BZ_FLUSH)) < 0) {
+    if ((res = BZ2_bzCompress(&d->s, BZ_FINISH)) < 0) {
         return res;
     }
     while (d->s.avail_out < d->binsz) {
@@ -359,8 +359,8 @@ static void bz_stop(ErlDrvData e)
     driver_free(d);
 }
 
-static int bz_ctl(ErlDrvData drv_data, unsigned int command, char *buf,
-                  int len, char **rbuf, int rlen)
+static ErlDrvSSizeT bz_ctl(ErlDrvData drv_data, unsigned int command, char *buf,
+                           ErlDrvSizeT len, char **rbuf, ErlDrvSizeT rlen)
 {
     BZData* d = (BZData*)drv_data;
     int res;
